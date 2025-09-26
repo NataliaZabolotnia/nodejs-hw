@@ -25,6 +25,11 @@ app.use(
     },
   }),
 );
+
+app.get('/', (req, res) => {
+  res.send('🟢 API is working. Use /notes to get data.');
+});
+
 app.get('/notes', (req, res) => {
   console.log(req.body);
   res.status(200).json({
@@ -46,6 +51,9 @@ app.use((err, req, res, next) => {
     message: 'Simulated server error',
   });
 });
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 app.use((req, res) => {
   res.status(404).json({
     message: 'Route not found',
