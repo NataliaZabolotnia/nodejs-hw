@@ -27,7 +27,7 @@ app.use(
 );
 
 app.get('/', (req, res) => {
-  res.send('🟢 API is working. Use /notes to get data.');
+  res.send('API is working. Use /notes to get data.');
 });
 
 app.get('/notes', (req, res) => {
@@ -38,7 +38,7 @@ app.get('/notes', (req, res) => {
 });
 app.get('/notes/:noteId', (req, res) => {
   res.status(200).json({
-    message: 'Retrieved note with ID: id_param',
+    message: `Retrieved note with ID: ${noteId}`,
   });
 });
 app.get('/test-error', () => {
