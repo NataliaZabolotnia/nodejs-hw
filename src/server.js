@@ -31,7 +31,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/notes', (req, res) => {
-  console.log(req.body);
   res.status(200).json({
     message: 'Retrieved all notes',
   });
@@ -47,9 +46,8 @@ app.get('/test-error', () => {
 });
 app.use((err, req, res, next) => {
   console.log('Error:', err.message);
-
   res.status(500).json({
-    message: 'Simulated server error',
+    message: err.message,
   });
 });
 
