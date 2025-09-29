@@ -7,7 +7,7 @@ import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
-import noteRoutes from './routes/noteRoutes.js';
+import notesRoutes from './routes/notesRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;
@@ -32,7 +32,7 @@ app.use(
     },
   }),
 );
-app.use(noteRoutes);
+app.use(notesRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
