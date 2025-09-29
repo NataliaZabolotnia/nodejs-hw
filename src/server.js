@@ -3,11 +3,11 @@ import cors from 'cors';
 import pino from 'pino-http';
 import helmet from 'helmet';
 import 'dotenv/config';
-import { connectMongoDB } from './db/connectMongoDB';
-import { logger } from './middleware/logger';
-import { errorHandler } from './middleware/errorHandler';
-import { notFoundHandler } from './middleware/notFoundHandler';
-import noteRoutes from './routes/noteRoutes';
+import { connectMongoDB } from './db/connectMongoDB.js';
+import { logger } from './middleware/logger.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { notFoundHandler } from './middleware/notFoundHandler.js';
+import noteRoutes from './routes/noteRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;

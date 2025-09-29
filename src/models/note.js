@@ -1,32 +1,31 @@
-import { Schema } from 'mongoose';
-import { model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const noteSchema = new Schema(
   {
-    title: String,
-    require: true,
-  },
-  {
-    content: String,
-    default: '',
-    require: false,
-  },
-  {
-    tag: String,
-    enum: [
-      'Work',
-      'Personal',
-      'Meeting',
-      'Shopping',
-      'Ideas',
-      'Travel',
-      'Finance',
-      'Health',
-      'Important',
-      'Todo',
-    ],
-    require: false,
-    default: 'Todo',
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+    tag: {
+      type: String,
+      enum: [
+        'Work',
+        'Personal',
+        'Meeting',
+        'Shopping',
+        'Ideas',
+        'Travel',
+        'Finance',
+        'Health',
+        'Important',
+        'Todo',
+      ],
+      default: 'Todo',
+    },
   },
   {
     timestamps: true,
