@@ -1,9 +1,9 @@
 import { Note } from '../models/note.js';
 import createHttpError from 'http-errors';
 
-export const getAllNotes = async (req, res) => {
+export const getAllNotes = async (req, res,next) => {
   try{
-  const { tag, search, page = 1, perPage = 10 } = req.query;
+  const { tag,  page = 1, perPage = 10,search } = req.query;
   const skip = (page - 1) * perPage;
   let notesQuery = Note.find();
   if (tag) {
@@ -11,9 +11,8 @@ export const getAllNotes = async (req, res) => {
   }
 
   if (search) {
-    notesQuery.or([
-      { title: { $regex: search, $options: 'i' } },
-      { content: { $regex: search, $options: 'i' } },
+    notesQuery.where([
+      { text: { $search: search } },
     ]);
   }
   const [totalNotes, notes] = await Promise.all([
@@ -23,9 +22,8 @@ export const getAllNotes = async (req, res) => {
   const totalPages = Math.ceil(totalNotes / perPage);
 
   res.status(200).json({ page, perPage, totalNotes, totalPages, notes });
-}catch(error){
-  console.log(error.message);
-  res.status(500).json({ message: 'Внутрішня помилка сервера' });
+}catch (error) {
+    next(error);
 }
 };
 export const getNoteById = async (req, res, next) => {
@@ -38,19 +36,17 @@ export const getNoteById = async (req, res, next) => {
     return;
   }
   res.status(200).json(note);
-  }catch(error){
-    console.log(error.message);
-  res.status(500).json({ message: 'Внутрішня помилка сервера' });
+  }catch (error) {
+    next(error);
   }
 
 };
-export const createNote = async (req, res) => {
+export const createNote = async (req, res,next) => {
  try{
    const note = await Note.create(req.body);
   res.status(201).json(note);
- }catch(error){
-   console.log(error.message);
-  res.status(500).json({ message: 'Внутрішня помилка сервера' });
+ }catch (error) {
+    next(error);
  }
 };
 export const deleteNote = async (req, res, next) => {
@@ -62,9 +58,8 @@ export const deleteNote = async (req, res, next) => {
     return;
   }
   res.status(200).json(note);
- }catch(error){
-   console.log(error.message);
-  res.status(500).json({ message: 'Внутрішня помилка сервера' });
+ }catch (error) {
+    next(error);
  }
 };
 export const updateNote = async (req, res, next) => {
@@ -78,8 +73,7 @@ export const updateNote = async (req, res, next) => {
     return;
   }
   res.status(200).json(note);
- }catch(error){
-   console.log(error.message);
-  res.status(500).json({ message: 'Внутрішня помилка сервера' });
+ }catch (error) {
+    next(error);
  }
 };
