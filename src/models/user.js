@@ -1,12 +1,12 @@
 import { model,Schema } from "mongoose";
 const userSchema=new Schema({
   username :{type:String,trim: true,required:false},
-  email:{type:String,trim:true,required:true},
+  email:{type:String,trim:true,unique: true,required:true},
   password:{type:String,required:true}
 },
 {timestamps:true,versionKey:false},
 );
-userSchema.pre("Save",function(next){
+userSchema.pre("save",function(next){
   if(!this.username){
     this.username=this.email;
   }
