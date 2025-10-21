@@ -2,7 +2,10 @@ import { model,Schema } from "mongoose";
 const userSchema=new Schema({
   username :{type:String,trim: true,required:false},
   email:{type:String,trim:true,unique: true,required:true},
-  password:{type:String,required:true}
+  password:{type:String,required:true},
+  avatar:{
+    type:String,required:false,default:"<https:/>/ac.goit.global/fullstack/rect/default-avatar.jpg>",
+  }
 },
 {timestamps:true,versionKey:false},
 );
