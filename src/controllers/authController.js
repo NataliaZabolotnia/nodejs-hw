@@ -4,7 +4,7 @@ import {User} from "../models/user.js";
 import { createSession ,setSessionCookies} from "../services/auth.js";
 import { Session } from "../models/session.js";
 import jwt from "jsonwebtoken";
-import { sendMail } from "../utils/sendMail.js";
+import { sendEmail } from "../utils/sendMail.js";
 import Handlebars from "handlebars";
 import path from "node:path";
 import fs from "node:fs/promises";
@@ -90,15 +90,13 @@ export const requestResetEmail =async(req,res,next)=>{
     const {email}=req.body;
     const user=await User.findOne({email});
     if(!user){
-      return res.status(200).json({ message: 'Password reset email sent successfully' }
-);
+      return next(createHttpError(404,"User not found"));
 }
     const resetToken=jwt.sign(
       {sub:user._id,email},
       process.env.JWT_SECRET,
       { expiresIn: '15m' },
     );
-    console.log(user,resetToken);
 
     const templatePath=path.resolve("src/templates/reset-password-email.html");
     const templateSource=await fs.readFile(templatePath,"utf-8");
@@ -109,7 +107,7 @@ export const requestResetEmail =async(req,res,next)=>{
   });
 
     try{
-      await sendMail({
+      await sendEmail({
         from:process.env.SMTP_FROM,
         to:email,
         subject: 'Reset your password',
@@ -137,8 +135,7 @@ export const resetPassword=async (req,res,next)=>{
     email:payload.email
   });
   if(!user){
-      next(createHttpError(404,"User not found"));
-      return;}
+  return  next(createHttpError(404,"User not found"));}
   const hashedPassword=await bcrypt.hash(password,10);
   await User.updateOne(
     {_id:user._id},

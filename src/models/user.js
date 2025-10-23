@@ -4,7 +4,7 @@ const userSchema=new Schema({
   email:{type:String,trim:true,unique: true,required:true},
   password:{type:String,required:true},
   avatar:{
-    type:String,required:false,default:"<https:/>/ac.goit.global/fullstack/rect/default-avatar.jpg>",
+    type:String,required:false,default:"https://ac.goit.global/fullstack/react/default-avatar.jpg",
   }
 },
 {timestamps:true,versionKey:false},
